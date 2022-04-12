@@ -1,0 +1,41 @@
+Task-3:
+Web servers & app servers
+Nginx
+Proxying , reverse proxy , forward proxy
+Routing algorithms in web servers
+
+Once you study those things ,
+Setup nginx as reverse proxy for your current web application.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vim serv.js
+
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('Hello World!');
+  res.end();
+}).listen(7000);
+console.log('Server running at http:');
+
+run on pm2 ----pm2 start serv.js
+
+------------------------------------------------------------------------------------------------------------------------------------------
+install nginx
+
+->sudo yum install nginx
+-> sudo vim /etc/nginx/nginx.conf
+
+    server {
+        listen 9000; ---------------------------------nginx port
+        server_name  dora.com;
+        location / {
+        proxy_pass http://0.0.0.0:7000; ---------------reverse proxy (serv.js port)
+        }
+
+->systemctl restart nginx
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+check ip ip:7000 and 9000
